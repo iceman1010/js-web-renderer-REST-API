@@ -6,6 +6,7 @@ set -e
 
 INSTALL_DIR="/opt/js-web-renderer-api"
 SERVICE_NAME="js-web-renderer-api"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 echo "Installing js-web-renderer REST API..."
 
@@ -14,9 +15,9 @@ sudo mkdir -p "$INSTALL_DIR"
 sudo mkdir -p /opt/js-web-renderer/profiles
 
 # Copy files
-sudo cp -r app "$INSTALL_DIR/"
-sudo cp requirements.txt "$INSTALL_DIR/"
-sudo cp .env.example "$INSTALL_DIR/"
+sudo cp -r "$SCRIPT_DIR/app" "$INSTALL_DIR/"
+sudo cp "$SCRIPT_DIR/requirements.txt" "$INSTALL_DIR/"
+sudo cp "$SCRIPT_DIR/.env.example" "$INSTALL_DIR/"
 
 # Create .env if it doesn't exist
 if [ ! -f "$INSTALL_DIR/.env" ]; then
@@ -32,7 +33,7 @@ cd "$INSTALL_DIR"
 sudo pip3 install -r requirements.txt
 
 # Install systemd service
-sudo cp "$(dirname "$0")/js-web-renderer-api.service" /etc/systemd/system/
+sudo cp "$SCRIPT_DIR/js-web-renderer-api.service" /etc/systemd/system/
 sudo systemctl daemon-reload
 sudo systemctl enable "$SERVICE_NAME"
 sudo systemctl restart "$SERVICE_NAME"
