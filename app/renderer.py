@@ -41,7 +41,7 @@ async def run_renderer(
 
     if type_actions:
         for action in type_actions:
-            cmd.extend(["--type", action.selector, action.value])
+            cmd.extend(["--type", f"{action.selector}::{action.value}"])
 
     if click_actions:
         for selector in click_actions:

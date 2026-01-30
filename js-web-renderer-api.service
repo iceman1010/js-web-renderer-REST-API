@@ -4,9 +4,11 @@ After=network.target
 
 [Service]
 Type=simple
-User=root
+User=js-web-render
+PAMName=login
 WorkingDirectory=/opt/js-web-renderer-api
 EnvironmentFile=/opt/js-web-renderer-api/.env
+Environment=XDG_RUNTIME_DIR=/run/user/1006
 ExecStart=/usr/bin/python3 -m uvicorn app.main:app --host 0.0.0.0 --port 9000
 Restart=always
 RestartSec=5
