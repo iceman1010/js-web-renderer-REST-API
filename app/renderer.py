@@ -57,7 +57,6 @@ async def run_renderer(
         cmd.extend(["--post-js", post_js])
 
     screenshot_file = None
-    network_file = None
 
     if screenshot:
         screenshot_file = tempfile.NamedTemporaryFile(suffix=".png", delete=False)
@@ -69,9 +68,7 @@ async def run_renderer(
         ])
 
     if network:
-        network_file = tempfile.NamedTemporaryFile(suffix=".json", delete=False)
-        network_file.close()
-        cmd.extend(["--network", network_file.name])
+        cmd.append("--only-network")
 
     try:
         process = await asyncio.create_subprocess_exec(
@@ -89,18 +86,34 @@ async def run_renderer(
             error_msg = stderr.decode().strip() or f"Renderer exited with code {process.returncode}"
             raise RendererError(error_msg)
 
+        output = stdout.decode()
+
         result = {
             "success": True,
-            "html": stdout.decode() if not screenshot else None,
+            "html": None,
             "current_url": None,
         }
 
-        # Try to extract current URL from output if present
-        output = stdout.decode()
-        if output.startswith("CURRENT_URL:"):
-            lines = output.split("\n", 1)
-            result["current_url"] = lines[0].replace("CURRENT_URL:", "").strip()
-            result["html"] = lines[1] if len(lines) > 1 else ""
+        # Handle network output (--only-network returns network requests as text)
+        if network:
+            # Parse network log output - each line is a request URL
+            requests = []
+            for line in output.strip().split("\n"):
+                line = line.strip()
+                if line:
+                    requests.append({"url": line})
+            result["network_data"] = requests
+        elif screenshot:
+            # Screenshot mode - no HTML output
+            pass
+        else:
+            # Normal HTML output
+            if output.startswith("CURRENT_URL:"):
+                lines = output.split("\n", 1)
+                result["current_url"] = lines[0].replace("CURRENT_URL:", "").strip()
+                result["html"] = lines[1] if len(lines) > 1 else ""
+            else:
+                result["html"] = output
 
         if screenshot and screenshot_file:
             screenshot_path = Path(screenshot_file.name)
@@ -109,14 +122,6 @@ async def run_renderer(
                 screenshot_path.unlink()
             else:
                 raise RendererError("Screenshot file was not created")
-
-        if network and network_file:
-            network_path = Path(network_file.name)
-            if network_path.exists():
-                result["network_data"] = json.loads(network_path.read_text())
-                network_path.unlink()
-            else:
-                raise RendererError("Network log file was not created")
 
         return result
 
@@ -131,11 +136,6 @@ async def run_renderer(
         if screenshot_file:
             try:
                 Path(screenshot_file.name).unlink(missing_ok=True)
-            except:
-                pass
-        if network_file:
-            try:
-                Path(network_file.name).unlink(missing_ok=True)
             except:
                 pass
 

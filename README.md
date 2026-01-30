@@ -15,7 +15,7 @@ REST API for rendering JavaScript-heavy web pages using js-web-renderer.
 ### Quick Install (on target server)
 
 ```bash
-git clone https://github.com/yourusername/js-web-renderer-REST-API.git
+git clone https://github.com/iceman1010/js-web-renderer-REST-API.git
 cd js-web-renderer-REST-API
 chmod +x install.sh
 ./install.sh
@@ -141,6 +141,19 @@ curl -X POST http://localhost:9000/network \
   -H "X-API-Key: your-api-key" \
   -H "Content-Type: application/json" \
   -d '{"url": "https://example.com", "wait": 5}'
+```
+
+Response:
+```json
+{
+  "success": true,
+  "requests": [
+    {"url": "https://example.com/"},
+    {"url": "https://example.com/style.css"},
+    {"url": "https://example.com/script.js"}
+  ],
+  "current_url": null
+}
 ```
 
 ## Request Parameters
