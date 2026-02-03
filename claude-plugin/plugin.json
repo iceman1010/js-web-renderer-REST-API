@@ -1,0 +1,7 @@
+{
+  "name": "js-web-renderer",
+  "version": "1.0.0",
+  "description": "Render JavaScript-heavy web pages, take screenshots, and capture network requests",
+  "commands": "commands",
+  "skills": "skills"
+}

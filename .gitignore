@@ -30,3 +30,7 @@ profiles/
 test/
 php/config.php
 php/poc_putio_access.php
+
+# MCP server
+mcp-server/node_modules/
+mcp-server/dist/
