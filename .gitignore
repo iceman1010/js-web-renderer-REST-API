@@ -28,3 +28,5 @@ Thumbs.db
 profiles/
 *.log
 test/
+php/config.php
+php/poc_putio_access.php
