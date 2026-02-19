@@ -13,6 +13,7 @@ class Settings:
     )
     HOST: str = os.getenv("HOST", "0.0.0.0")
     PORT: int = int(os.getenv("PORT", "9000"))
+    MAX_INSTANCES: int = int(os.getenv("MAX_INSTANCES", "4"))
 
 
 settings = Settings()

@@ -49,6 +49,7 @@ PROFILES_DIR=/opt/js-web-renderer/profiles
 JS_WEB_RENDERER_PATH=/opt/js-web-renderer/bin/fetch-rendered.py
 HOST=0.0.0.0
 PORT=9000
+MAX_INSTANCES=4
 ```
 
 ## API Endpoints

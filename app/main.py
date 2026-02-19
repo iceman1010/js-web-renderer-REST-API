@@ -20,7 +20,7 @@ from .models import (
     RenderResponse,
     ScreenshotRequest,
 )
-from .renderer import RendererError, is_renderer_available, run_renderer
+from .renderer import ConcurrencyLimitError, RendererError, is_renderer_available, run_renderer
 
 app = FastAPI(
     title="js-web-renderer REST API",
@@ -62,6 +62,11 @@ async def render_page(
             html=result.get("html"),
             current_url=result.get("current_url"),
         )
+    except ConcurrencyLimitError as e:
+        raise HTTPException(
+            status_code=status.HTTP_429_TOO_MANY_REQUESTS,
+            detail=str(e),
+        )
     except RendererError as e:
         return RenderResponse(success=False, error=str(e))
 
@@ -89,6 +94,11 @@ async def take_screenshot(
         return Response(
             content=result["screenshot_data"],
             media_type="image/png",
+        )
+    except ConcurrencyLimitError as e:
+        raise HTTPException(
+            status_code=status.HTTP_429_TOO_MANY_REQUESTS,
+            detail=str(e),
         )
     except RendererError as e:
         raise HTTPException(
@@ -119,6 +129,11 @@ async def capture_network(
             success=True,
             requests=result.get("network_data"),
             current_url=result.get("current_url"),
+        )
+    except ConcurrencyLimitError as e:
+        raise HTTPException(
+            status_code=status.HTTP_429_TOO_MANY_REQUESTS,
+            detail=str(e),
         )
     except RendererError as e:
         return NetworkResponse(success=False, error=str(e))
