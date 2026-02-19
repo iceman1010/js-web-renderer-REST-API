@@ -179,6 +179,85 @@ Response:
 | `width` | int | 1280 | Viewport width (320-3840) |
 | `height` | int | 900 | Viewport height (240-2160) |
 
+## Deployment
+
+### Local Deploy Script
+
+The project includes a `deploy.sh` script for deploying to the production server:
+
+```bash
+# Deploy to whisper1 server
+./deploy.sh
+```
+
+The script will:
+1. Pull latest code from GitHub on the server
+2. Fix permissions (ensure CLI is executable)
+3. Restart the service
+
+### Manual Deployment
+
+```bash
+# On the server
+cd /opt/js-web-renderer-api
+git fetch origin master
+git reset --hard origin/master
+sudo systemctl restart js-web-renderer-api
+```
+
+## Testing
+
+### Prerequisites
+
+```bash
+pip3 install pytest pytest-asyncio httpx
+```
+
+### Environment Variables
+
+Set these environment variables before running tests:
+
+```bash
+export API_KEY="your-api-key"           # From .env file on server
+export TEST_BASE_URL="http://whisper1:9000"
+```
+
+### Run Tests
+
+```bash
+# Run all tests
+pytest
+
+# Run specific test suites
+pytest tests/test_api.py        # REST API tests
+pytest tests/test_cli.py        # CLI tool tests (via SSH)
+pytest tests/test_concurrency.py # Concurrency limiting tests
+```
+
+### Test Coverage
+
+- **API Tests**: Health, render, screenshot, network, profiles CRUD, authentication
+- **CLI Tests**: Basic render, screenshot, network capture, console output, help
+- **Concurrency Tests**: Instance limiting, 429 responses when limit exceeded
+
+## Health Endpoint
+
+The `/health` endpoint returns:
+
+```json
+{
+  "status": "healthy",
+  "renderer_available": true,
+  "active_instances": 0,
+  "max_instances": 4
+}
+```
+
+- `active_instances`: Number of browsers currently rendering
+- `max_instances`: Maximum concurrent browsers allowed (configured via `MAX_INSTANCES`)
+
+When `active_instances` reaches `max_instances`, new requests receive HTTP 429 (Too Many Requests).
+
 ## License
 
 MIT
