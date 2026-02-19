@@ -1,0 +1,10 @@
+{
+  "js-web-renderer": {
+    "command": "node",
+    "args": ["${CLAUDE_PLUGIN_ROOT}/../mcp-server/dist/index.js"],
+    "env": {
+      "JS_RENDER_API_URL": "${JS_RENDER_API_URL}",
+      "JS_RENDER_API_KEY": "${JS_RENDER_API_KEY}"
+    }
+  }
+}

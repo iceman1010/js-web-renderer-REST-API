@@ -2,6 +2,10 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Rules
+
+- Don't mention yourself anywhere! No "Co-Authored-By", no self-references in commits, comments, or code.
+
 ## Project Overview
 
 This is a FastAPI REST API server that wraps the `js-web-renderer` CLI tool, exposing its JavaScript-heavy web page rendering capabilities through HTTP endpoints with API key authentication.

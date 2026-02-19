@@ -1,4 +1,5 @@
 ---
+name: js-render
 description: Render JavaScript-heavy web pages using the js-web-renderer MCP tools. Use when the user needs to fetch content from SPAs, React apps, or pages requiring JS execution.
 ---
 

@@ -3,5 +3,6 @@
   "version": "1.0.0",
   "description": "Render JavaScript-heavy web pages, take screenshots, and capture network requests",
   "commands": "commands",
-  "skills": "skills"
+  "skills": "skills",
+  "readme": "README.md"
 }

@@ -168,3 +168,8 @@ def is_renderer_available() -> bool:
     """Check if the renderer script exists and is executable."""
     path = settings.JS_WEB_RENDERER_PATH
     return path.exists() and path.is_file()
+
+
+def get_active_instances() -> int:
+    """Get the current number of active browser instances."""
+    return _active_instances

@@ -111,3 +111,5 @@ class ProfileListResponse(BaseModel):
 class HealthResponse(BaseModel):
     status: str
     renderer_available: bool
+    active_instances: int
+    max_instances: int

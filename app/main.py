@@ -20,7 +20,7 @@ from .models import (
     RenderResponse,
     ScreenshotRequest,
 )
-from .renderer import ConcurrencyLimitError, RendererError, is_renderer_available, run_renderer
+from .renderer import ConcurrencyLimitError, RendererError, get_active_instances, is_renderer_available, run_renderer
 
 app = FastAPI(
     title="js-web-renderer REST API",
@@ -36,6 +36,8 @@ async def health_check():
     return HealthResponse(
         status="healthy",
         renderer_available=is_renderer_available(),
+        active_instances=get_active_instances(),
+        max_instances=settings.MAX_INSTANCES,
     )
 
 

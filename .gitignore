@@ -27,6 +27,7 @@ Thumbs.db
 # Project specific
 profiles/
 *.log
+CLAUDE.local.md
 test/
 php/config.php
 php/poc_putio_access.php

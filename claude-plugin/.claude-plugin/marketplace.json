@@ -1,0 +1,16 @@
+{
+  "name": "js-web-renderer-local",
+  "description": "Local marketplace for js-web-renderer plugin",
+  "plugins": [
+    {
+      "id": "js-web-renderer",
+      "name": "JS Web Renderer",
+      "description": "Render JavaScript-heavy web pages, take screenshots, and capture network requests",
+      "version": "1.0.0",
+      "source": {
+        "source": "directory",
+        "path": ".."
+      }
+    }
+  ]
+}
