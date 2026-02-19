@@ -55,11 +55,11 @@ class TestConcurrency:
         
         # Count successes and 429s
         success_count = sum(1 for r in results if r.get("success"))
-       429_count = sum(1 for r in results if r.get("status") == 429)
+        too_many_requests_count = sum(1 for r in results if r.get("status") == 429)
         
         # Should have some successes (up to max_instances) and some 429s
         assert success_count <= 4, f"Expected at most 4 successes, got {success_count}"
-        assert success_count + 429_count == num_requests
+        assert success_count + too_many_requests_count == num_requests
         
         # Wait for all requests to complete
         time.sleep(2)
