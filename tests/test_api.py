@@ -45,7 +45,8 @@ class TestAPI:
         response = httpx.post(
             f"{BASE_URL}/render",
             json={"url": "https://example.com", "wait": 3},
-            headers=HEADERS
+            headers=HEADERS,
+            timeout=60
         )
         assert response.status_code == 200
         data = response.json()
@@ -70,7 +71,8 @@ class TestAPI:
         response = httpx.post(
             f"{BASE_URL}/network",
             json={"url": "https://example.com", "wait": 3},
-            headers=HEADERS
+            headers=HEADERS,
+            timeout=60
         )
         assert response.status_code == 200
         data = response.json()
